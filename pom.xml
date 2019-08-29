@@ -13,6 +13,11 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>microservices</name>
 	<description>Demo project for Microservices</description>
+	<packaging>pom</packaging>
+
+	<modules>
+		<module>jwt</module>
+	</modules>
 
 	<build>
 		<plugins>
