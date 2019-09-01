@@ -22,7 +22,7 @@ public class GalleryController {
     @Autowired
     private Environment env;
 
-    @GetMapping("/home")
+    @GetMapping("/")
     public String home(){
         return "Hello from Gallery Service running at port :: " +
                 env.getProperty("local.server.port");
