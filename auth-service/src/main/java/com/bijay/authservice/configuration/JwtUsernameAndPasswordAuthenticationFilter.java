@@ -80,7 +80,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter
                 .signWith(SignatureAlgorithm.HS512,jwtConfig.getSecret().getBytes())
                 .compact();
 
-
+        log.info(":::: ====== ++++++ {} SUCCESSFULLY AUTHENTICATED  ++++++ ====== ::::", auth.getName());
         response.addHeader(jwtConfig.getHeader(), jwtConfig.getPrefix() + token);
     }
 
