@@ -61,6 +61,7 @@
             <groupId>com.bijay</groupId>
             <artifactId>common-service</artifactId>
             <version>${project.version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
