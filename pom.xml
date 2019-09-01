@@ -9,11 +9,11 @@
 	<packaging>pom</packaging>
 
 	<modules>
+		<module>eureka-server</module>
 		<module>common-service</module>
 		<module>zuul-server</module>
 		<module>image-service</module>
 		<module>gallery-service</module>
-		<module>eureka-server</module>
 		<module>auth-service</module>
 	</modules>
 
