@@ -59,6 +59,11 @@ public class JwtUsernameAndPasswordAuthenticationFilter
                                             FilterChain chain,
                                             Authentication auth){
 
+        System.out.println("Header :: " + jwtConfig.getHeader());
+        System.out.println("Prefix :: " + jwtConfig.getPrefix());
+        System.out.println("Secret :: " + jwtConfig.getSecret());
+        System.out.println("Expiration Time :: "+ jwtConfig.getExpiration());
+
         Long now = System.currentTimeMillis();
         String token = Jwts.builder()
                 .setSubject(auth.getName())
@@ -70,7 +75,8 @@ public class JwtUsernameAndPasswordAuthenticationFilter
                 .signWith(SignatureAlgorithm.HS512,jwtConfig.getSecret().getBytes())
                 .compact();
 
-        response.addHeader(jwtConfig.getHeader(), jwtConfig.getPrefix()+token);
+
+        response.addHeader(jwtConfig.getHeader(), jwtConfig.getPrefix() + token);
     }
 
 }
