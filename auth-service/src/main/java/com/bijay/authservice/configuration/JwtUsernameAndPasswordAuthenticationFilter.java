@@ -5,6 +5,7 @@ import com.bijay.commonservice.security.JwtConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,6 +22,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class JwtUsernameAndPasswordAuthenticationFilter
         extends UsernamePasswordAuthenticationFilter {
 
@@ -38,6 +40,9 @@ public class JwtUsernameAndPasswordAuthenticationFilter
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response)
             throws AuthenticationException{
+
+        log.info(":::: ====== ------ INSIDE AUTH SERVER  ------ ====== ::::");
+
         try {
             UserCredentials creds = new ObjectMapper().readValue(request.getInputStream(),
                     UserCredentials.class);
@@ -49,7 +54,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter
             return authManager.authenticate(authToken);
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
     }
 
@@ -59,10 +64,10 @@ public class JwtUsernameAndPasswordAuthenticationFilter
                                             FilterChain chain,
                                             Authentication auth){
 
-        System.out.println("Header :: " + jwtConfig.getHeader());
-        System.out.println("Prefix :: " + jwtConfig.getPrefix());
-        System.out.println("Secret :: " + jwtConfig.getSecret());
-        System.out.println("Expiration Time :: "+ jwtConfig.getExpiration());
+        log.info("Header :: " + jwtConfig.getHeader());
+        log.info("Prefix :: " + jwtConfig.getPrefix());
+        log.info("Secret :: " + jwtConfig.getSecret());
+        log.info("Expiration Time :: "+ jwtConfig.getExpiration());
 
         Long now = System.currentTimeMillis();
         String token = Jwts.builder()

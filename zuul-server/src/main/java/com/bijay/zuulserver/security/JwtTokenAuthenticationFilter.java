@@ -3,6 +3,7 @@ package com.bijay.zuulserver.security;
 import com.bijay.commonservice.security.JwtConfig;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
+@Slf4j
 public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtConfig jwtConfig;
@@ -29,6 +31,13 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain chain) throws ServletException, IOException {
+
+        log.info(":::: ====== ------ INSIDE ZUUL GATEWAY SERVER  ------ ====== ::::");
+
+        log.info("Header :: " + jwtConfig.getHeader());
+        log.info("Prefix :: " + jwtConfig.getPrefix());
+        log.info("Secret :: " + jwtConfig.getSecret());
+        log.info("Expiration Time :: "+ jwtConfig.getExpiration());
 
         String header = request.getHeader(jwtConfig.getHeader());
 
