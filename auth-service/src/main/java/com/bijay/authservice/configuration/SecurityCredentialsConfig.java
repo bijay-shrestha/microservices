@@ -1,8 +1,8 @@
 package com.bijay.authservice.configuration;
 
 import com.bijay.commonservice.security.JwtConfig;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,19 +17,23 @@ import javax.servlet.http.HttpServletResponse;
 @EnableWebSecurity
 public class SecurityCredentialsConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private UserDetailsService userDetailsService;
 
-    @Autowired
-    private JwtConfig jwtConfig;
+    private final UserDetailsService userDetailsService;
 
+    private final JwtConfig jwtConfig;
+
+    public SecurityCredentialsConfig(@Lazy UserDetailsService userDetailsService,
+                                     @Lazy JwtConfig jwtConfig) {
+        this.userDetailsService = userDetailsService;
+        this.jwtConfig = jwtConfig;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception{
         http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .exceptionHandling().authenticationEntryPoint(
-                        (req, rsp, e)-> rsp.sendError(HttpServletResponse.SC_UNAUTHORIZED))
+                (req, rsp, e)-> rsp.sendError(HttpServletResponse.SC_UNAUTHORIZED))
                 .and()
                 .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(), jwtConfig))
                 .authorizeRequests()
