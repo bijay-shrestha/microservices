@@ -41,13 +41,13 @@ public class JwtUsernameAndPasswordAuthenticationFilter
                                                 HttpServletResponse response)
             throws AuthenticationException{
 
-        log.info(":::: ====== ------ INSIDE AUTH SERVER  ------ ====== ::::");
+        log.info(":::: ====== ------ ATTEMPTING AUTHENTICATION ------ ====== ::::");
 
         try {
             UserCredentials creds = new ObjectMapper().readValue(request.getInputStream(),
                     UserCredentials.class);
 
-            UsernamePasswordAuthenticationToken authToken =
+                UsernamePasswordAuthenticationToken authToken =
                     new UsernamePasswordAuthenticationToken(creds.getUsername(),
                             creds.getPassword(),
                             Collections.emptyList());
@@ -69,6 +69,8 @@ public class JwtUsernameAndPasswordAuthenticationFilter
         log.info("Secret :: " + jwtConfig.getSecret());
         log.info("Expiration Time :: "+ jwtConfig.getExpiration());
 
+        log.info(":::: ====== ------ BUILDING TOKEN ------ ====== ::::");
+
         Long now = System.currentTimeMillis();
         String token = Jwts.builder()
                 .setSubject(auth.getName())
@@ -76,12 +78,15 @@ public class JwtUsernameAndPasswordAuthenticationFilter
                         auth.getAuthorities().stream()
                                 .map(GrantedAuthority::getAuthority)
                                 .collect(Collectors.toList())).setIssuedAt(new Date(now))
+                .claim("user-id", 1L)
                 .setExpiration(new Date(now + jwtConfig.getExpiration() * 1000))
                 .signWith(SignatureAlgorithm.HS512,jwtConfig.getSecret().getBytes())
                 .compact();
 
-        log.info(":::: ====== ++++++ {} SUCCESSFULLY AUTHENTICATED  ++++++ ====== ::::", auth.getName());
-        response.addHeader(jwtConfig.getHeader(), jwtConfig.getPrefix() + token);
+        log.info(":::: ====== ++++++ {} SUCCESSFULLY AUTHENTICATED AND TOKEN ADDED THE HEADER  ++++++ ====== ::::", auth.getName());
+        response.addHeader(jwtConfig.getHeader(),
+                jwtConfig.getPrefix() + token);
     }
 
 }
+

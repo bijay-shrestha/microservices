@@ -55,6 +55,7 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
                     .getBody();
 
             String username = claims.getSubject();
+            Object userId = claims.get("user-id");
 
             if (username != null) {
                 @SuppressWarnings("unchecked")
@@ -65,6 +66,8 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
                                 null, authorities.stream().map(
                                 SimpleGrantedAuthority::new
                         ).collect(Collectors.toList()));
+
+                log.info("======== --------- +++++++ User with id {} successfully authenticated! +++++++++ ---------- =========", userId);
 
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
