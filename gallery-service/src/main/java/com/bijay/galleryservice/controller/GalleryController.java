@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -26,7 +27,11 @@ public class GalleryController {
     public String home(){
         return "Hello from Gallery Service running at port :: " +
                 env.getProperty("local.server.port");
+    }
 
+    @GetMapping("/test")
+    public String test(HttpServletRequest request){
+        return "Hello from " + request.getHeader("username");
     }
 
     @GetMapping("/{id}")

@@ -19,4 +19,7 @@ public class JwtConfig {
 
     @Value("${security.jwt.secret:NovemberRainGuns&Roses}")
     private String secret;
+
+    @Value("${security.jwt.userHeaderParam:X-User-Header}")
+    private String userHeaderParam;
 }

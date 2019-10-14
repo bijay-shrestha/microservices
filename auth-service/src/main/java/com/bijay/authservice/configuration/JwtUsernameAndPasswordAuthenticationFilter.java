@@ -78,7 +78,6 @@ public class JwtUsernameAndPasswordAuthenticationFilter
                         auth.getAuthorities().stream()
                                 .map(GrantedAuthority::getAuthority)
                                 .collect(Collectors.toList())).setIssuedAt(new Date(now))
-                .claim("user-id", 1L)
                 .setExpiration(new Date(now + jwtConfig.getExpiration() * 1000))
                 .signWith(SignatureAlgorithm.HS512,jwtConfig.getSecret().getBytes())
                 .compact();

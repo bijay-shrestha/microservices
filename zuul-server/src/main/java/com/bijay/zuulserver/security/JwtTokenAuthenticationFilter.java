@@ -39,6 +39,7 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
         log.info("Secret :: " + jwtConfig.getSecret());
         log.info("Expiration Time :: "+ jwtConfig.getExpiration());
 
+        String USER_HEADER = "X-User-Header";
         String header = request.getHeader(jwtConfig.getHeader());
 
         if(header == null || !header.startsWith(jwtConfig.getPrefix())){
@@ -55,7 +56,6 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
                     .getBody();
 
             String username = claims.getSubject();
-            Object userId = claims.get("user-id");
 
             if (username != null) {
                 @SuppressWarnings("unchecked")
@@ -63,13 +63,16 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
                 UsernamePasswordAuthenticationToken auth =
                         new UsernamePasswordAuthenticationToken(
                                 username,
-                                null, authorities.stream().map(
+                                null,
+                                authorities.stream().map(
                                 SimpleGrantedAuthority::new
                         ).collect(Collectors.toList()));
 
-                log.info("======== --------- +++++++ User with id {} successfully authenticated! +++++++++ ---------- =========", userId);
+                log.info("======== --------- +++++++ User with id {} successfully " +
+                        "authenticated! +++++++++ ---------- =========", username);
 
                 SecurityContextHolder.getContext().setAuthentication(auth);
+                request.setAttribute(USER_HEADER, username);
             }
         }catch (Exception e){
             log.error("Random Exception", e);

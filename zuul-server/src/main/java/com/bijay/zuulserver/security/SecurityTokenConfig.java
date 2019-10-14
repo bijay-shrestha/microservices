@@ -1,6 +1,7 @@
 package com.bijay.zuulserver.security;
 
 import com.bijay.commonservice.security.JwtConfig;
+import com.bijay.zuulserver.config.AddCustomHeaderFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpMethod;
@@ -42,6 +43,11 @@ public class SecurityTokenConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public JwtConfig jwtConfig(){
         return new JwtConfig();
+    }
+
+    @Bean
+    public AddCustomHeaderFilter addCustomHeaderFilter(JwtConfig jwtConfig){
+        return new AddCustomHeaderFilter(jwtConfig);
     }
 
 }

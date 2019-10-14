@@ -4,8 +4,6 @@ import com.bijay.commonservice.security.JwtConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
@@ -16,7 +14,7 @@ import java.io.IOException;
 @Slf4j
 public class InterruptionFilter implements Filter {
 
-    public final JwtConfig jwtConfig;
+    private final JwtConfig jwtConfig;
 
     public InterruptionFilter(@Lazy JwtConfig jwtConfig) {
         this.jwtConfig = jwtConfig;
@@ -29,9 +27,9 @@ public class InterruptionFilter implements Filter {
 
         log.info("======= -------- INSIDE INTERRUPTION FILTER ------- ========");
 
-        SecurityContext securityContext = SecurityContextHolder.getContext();
         HttpServletRequest req = (HttpServletRequest)request;
-        System.out.println(" REQUEST ------  " + ((HttpServletRequest) request).getHeader(jwtConfig.getHeader()));
+        System.out.println(" REQUEST ------  " + ((HttpServletRequest) request)
+                .getHeader(jwtConfig.getUserHeaderParam()));
 
         if("yes".equalsIgnoreCase(req.getParameter("interrupt")))
             response.getWriter().write("Sorry, interrupted");
