@@ -23,28 +23,28 @@ public class GalleryController {
     private Environment env;
 
     @GetMapping("/")
-    public String home(){
+    public String home() {
         return "Hello from Gallery Service running at port :: " +
                 env.getProperty("local.server.port");
 
     }
 
     @GetMapping("/{id}")
-    public Gallery getGallery(@PathVariable final int id){
+    public Gallery getGallery(@PathVariable final int id) {
         Gallery gallery = new Gallery();
         gallery.setId(id);
 
         List<Object> images =
                 restTemplate.getForObject(
                         "http://image-service/images",
-                        List.class );
+                        List.class);
         gallery.setImages(images);
 
         return gallery;
     }
 
     @GetMapping("/admin")
-    public String homeAdmin(){
+    public String homeAdmin() {
         return "This is the admin area of Gallery service running at port :: "
                 + env.getProperty("local.server.port");
     }

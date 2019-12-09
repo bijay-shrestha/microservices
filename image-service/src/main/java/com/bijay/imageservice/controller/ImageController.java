@@ -18,7 +18,7 @@ public class ImageController {
     private Environment env;
 
     @GetMapping("/images")
-    public List<Image> getImages(){
+    public List<Image> getImages() {
         return Arrays.asList(
                 new Image(1L, "Bryan Stark", "http://helloworld"),
                 new Image(1L, "Sansa", "http://helloworld"),

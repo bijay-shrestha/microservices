@@ -39,7 +39,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter
 
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response)
-            throws AuthenticationException{
+            throws AuthenticationException {
 
         log.info(":::: ====== ------ ATTEMPTING AUTHENTICATION ------ ====== ::::");
 
@@ -47,7 +47,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter
             UserCredentials creds = new ObjectMapper().readValue(request.getInputStream(),
                     UserCredentials.class);
 
-                UsernamePasswordAuthenticationToken authToken =
+            UsernamePasswordAuthenticationToken authToken =
                     new UsernamePasswordAuthenticationToken(creds.getUsername(),
                             creds.getPassword(),
                             Collections.emptyList());
@@ -62,12 +62,12 @@ public class JwtUsernameAndPasswordAuthenticationFilter
     protected void successfulAuthentication(HttpServletRequest request,
                                             HttpServletResponse response,
                                             FilterChain chain,
-                                            Authentication auth){
+                                            Authentication auth) {
 
         log.info("Header :: " + jwtConfig.getHeader());
         log.info("Prefix :: " + jwtConfig.getPrefix());
         log.info("Secret :: " + jwtConfig.getSecret());
-        log.info("Expiration Time :: "+ jwtConfig.getExpiration());
+        log.info("Expiration Time :: " + jwtConfig.getExpiration());
 
         log.info(":::: ====== ------ BUILDING TOKEN ------ ====== ::::");
 
@@ -80,7 +80,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter
                                 .collect(Collectors.toList())).setIssuedAt(new Date(now))
                 .claim("user-id", 1L)
                 .setExpiration(new Date(now + jwtConfig.getExpiration() * 1000))
-                .signWith(SignatureAlgorithm.HS512,jwtConfig.getSecret().getBytes())
+                .signWith(SignatureAlgorithm.HS512, jwtConfig.getSecret().getBytes())
                 .compact();
 
         log.info(":::: ====== ++++++ {} SUCCESSFULLY AUTHENTICATED AND TOKEN ADDED THE HEADER  ++++++ ====== ::::", auth.getName());

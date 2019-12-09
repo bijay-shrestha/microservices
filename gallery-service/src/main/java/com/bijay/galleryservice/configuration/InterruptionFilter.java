@@ -13,9 +13,9 @@ public class InterruptionFilter implements Filter {
     public void doFilter(ServletRequest request,
                          ServletResponse response,
                          FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest req = (HttpServletRequest)request;
+        HttpServletRequest req = (HttpServletRequest) request;
 
-        if("yes".equalsIgnoreCase(req.getParameter("interrupt")))
+        if ("yes".equalsIgnoreCase(req.getParameter("interrupt")))
             response.getWriter().write("Sorry, interrupted");
         else
             chain.doFilter(request, response);

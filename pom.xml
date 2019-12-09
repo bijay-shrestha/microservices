@@ -4,14 +4,14 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.bijay</groupId>
-	<artifactId>microservices-multi-module</artifactId>
+	<artifactId>microservices</artifactId>
 	<version>1.0</version>
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>eureka-server</module>
+        <module>name-server</module>
 		<module>common-service</module>
-		<module>zuul-server</module>
+		<module>edge-server</module>
 		<module>image-service</module>
 		<module>gallery-service</module>
 		<module>auth-service</module>
