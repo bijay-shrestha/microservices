@@ -1,4 +1,4 @@
-package com.bijay.galleryservice.configuration;
+package com.bijay.edgeserver.filter;
 
 import org.springframework.stereotype.Component;
 
