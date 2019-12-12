@@ -1,6 +1,8 @@
 package com.bijay.contextserver.filters;
 
-import com.example.demo.security.JwtConfig;
+import com.bijay.commonservice.security.JwtConfig;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
@@ -12,7 +14,7 @@ public class UserContextFilter implements Filter {
 
     private final JwtConfig jwtConfig;
 
-    public UserContextFilter(JwtConfig jwtConfig) {
+    public UserContextFilter(@Lazy JwtConfig jwtConfig) {
         this.jwtConfig = jwtConfig;
     }
 
@@ -33,5 +35,10 @@ public class UserContextFilter implements Filter {
 
     @Override
     public void destroy() {
+    }
+
+    @Bean
+    public JwtConfig jwtConfig() {
+        return new JwtConfig();
     }
 }

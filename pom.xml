@@ -12,6 +12,7 @@
         <module>name-server</module>
 		<module>common-service</module>
 		<module>edge-server</module>
+		<module>context-server</module>
 		<module>image-service</module>
 		<module>gallery-service</module>
 		<module>auth-service</module>
